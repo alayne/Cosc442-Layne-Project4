@@ -26,6 +26,17 @@ public class CoffeeMaker {
 		}
 		inventory = new Inventory();
 	}
+	
+	public boolean canAddRecipe(Recipe r) {
+		
+		//Check if the recipe already exists
+        for(int i = 0; i < NUM_RECIPES; i++) {
+            if(r.equals(recipeArray[i])) {
+                return false;
+            }
+        }
+        return true;
+	}
 
 	/**
 	 * Returns true if a recipe is successfully added to the 
@@ -34,14 +45,11 @@ public class CoffeeMaker {
 	
 	 * @return boolean */
 	public boolean addRecipe(Recipe r) {
-        boolean canAddRecipe = true;
-            
-        //Check if the recipe already exists
-        for(int i = 0; i < NUM_RECIPES; i++) {
-            if(r.equals(recipeArray[i])) {
-                canAddRecipe = false;
-            }
-        }
+        
+		boolean canAddRecipe;
+		
+		canAddRecipe = canAddRecipe(r);
+        
         
         //Check for an empty recipe, add recipe to first empty spot
         if(canAddRecipe) {
