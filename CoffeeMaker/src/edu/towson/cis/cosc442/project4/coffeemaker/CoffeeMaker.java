@@ -123,7 +123,7 @@ public class CoffeeMaker {
      * @return boolean */
     public boolean addInventory(int amtCoffee, int amtMilk, int amtSugar, int amtChocolate) {
         boolean canAddInventory = true;
-        if(amtCoffee < 0 || amtMilk < 0 || amtSugar > 0 || amtChocolate < 0) { 
+        if(amtCoffee < 0 || amtMilk < 0 || amtSugar < 0 || amtChocolate < 0) {  // Changed amtSugar to be < 0 
             canAddInventory = false;
         }
         else {
@@ -131,7 +131,9 @@ public class CoffeeMaker {
 	        inventory.setMilk(inventory.getMilk() + amtMilk);
 	        inventory.setSugar(inventory.getSugar() + amtSugar);
 	        inventory.setChocolate(inventory.getChocolate() + amtChocolate);
+	        System.out.println("Inventory Added"); // Added confirmation message if added.
         }
+       
         return canAddInventory;
     }
     
