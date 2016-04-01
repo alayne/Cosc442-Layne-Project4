@@ -10,6 +10,8 @@ public class CoffeeMakerTest extends TestCase {
 	private Inventory i;
 	private Recipe r1;
 	private Recipe r2;
+	private Recipe r3;
+	private Recipe r4;
 
 	public void setUp() {
 		cm = new CoffeeMaker();
@@ -30,6 +32,22 @@ public class CoffeeMakerTest extends TestCase {
 		r2.setAmtMilk(-1);
 		r2.setAmtSugar(-1);
 		r2.setAmtChocolate(-1);
+		
+		r3 = new Recipe();
+		r3.setName("Bad Coffee");
+		r3.setPrice(10);
+		r3.setAmtCoffee(6);
+		r3.setAmtMilk(1);
+		r3.setAmtSugar(2);
+		r3.setAmtChocolate(1);
+		
+		r4 = new Recipe();
+		r4.setName("Super Coffee");
+		r4.setPrice(10);
+		r4.setAmtCoffee(15);
+		r4.setAmtMilk(15);
+		r4.setAmtSugar(15);
+		r4.setAmtChocolate(15);
 	}
 	
 	
@@ -87,16 +105,24 @@ public class CoffeeMakerTest extends TestCase {
 				"Chocolate: " + i.getChocolate() + System.getProperty("line.separator"), output);
 		
 	}
+	//Tests using the CoffeeMakers addInventory method to add bad inventory
+	public void testAddInventory4() { 
+		boolean added;
+		added = cm.addInventory(0, 0, 0, 0);
+		
+		assertTrue(added);
+	}
+	
 	// Making sure the inventory numbers are updated after adding inventory
 	public void testCheckInventory() {
 		
 		int sum = 0;
 		
-		cm.addInventory(1, 3, 0, 1);
+		cm.addInventory(1, 3, 1, 1);
 		i = cm.checkInventory();
 		sum = i.getChocolate() + i.getCoffee() + i.getMilk() + i.getSugar();
 		
-		assertEquals(65, sum);
+		assertEquals(66, sum);
 		
 	}
 	// test purchasing a beverage and getting the correct change back
@@ -106,6 +132,24 @@ public class CoffeeMakerTest extends TestCase {
 		int change  = cm.makeCoffee(r1, 50);
 		
 		assertEquals(0, change);
+		
+	}
+	//Test to make sure inventory is updated after purchasing beverage
+	public void testPurchaseBeverage2() {
+		
+		cm.addRecipe(r3);
+		cm.makeCoffee(r3, 50);
+		i = cm.checkInventory();
+		int inventory = i.getChocolate() + i.getCoffee() + i.getMilk() + i.getSugar();
+		assertEquals(50, inventory);
+		
+	}
+	// Tests purchasing a beverage is the exact amount of inventory needed is there
+	public void testPurchaseBeverage3() {
+		
+		cm.addRecipe(r4);
+		int moneyBack = cm.makeCoffee(r4, 10);
+		assertEquals(0, moneyBack);
 		
 	}
 	//Tests ability to return the correct recipe given the name of the recipe
